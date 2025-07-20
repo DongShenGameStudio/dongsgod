@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>东神工作室 - 站内搜索器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+html,body{height:100%;background:#0c0c1a;color:#e6e6e6}
+#wrapper{position:fixed;inset:0;display:flex;flex-direction:column;background:#fff}
+#tabsWrap{display:flex;align-items:center;gap:4px;padding:6px 8px;overflow-x:auto;background:#0078ff;flex-shrink:0}
+#tabsWrap::-webkit-scrollbar{display:none}
+.tab{cursor:pointer;white-space:nowrap;padding:6px 10px;border-radius:4px;background:#fff3;color:#fff;font-size:.85rem;flex-shrink:0}
+.tab.active{background:#fff;color:#0078ff}
+.tab .close{color:#ff5f6d;margin-left:4px;font-size:.75rem}
+#searchBar{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#0078ff;flex-shrink:0}
+#backBtn{
+  height:36px;
+  border:none;
+  border-radius:4px;
+  padding:0 12px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ffac33,#fecc4c); /* 橙色渐变为黄色 */
+  text-align:left; /* 设置按钮文字横向排列 */
+  width: 80px; /* 调整按钮宽度 */
+  margin-right: 10px; /* 添加右侧缝隙 */
+}
+#searchBar input{flex:1;height:36px;border:none;border-radius:4px;padding:0 8px;font-size:1rem}
+#searchBar button{height:36px;border:none;border-radius:4px;background:#fff;color:#0078ff;padding:0 12px;cursor:pointer}
+#searchBar .back-web{
+  background:linear-gradient(90deg,#0078ff,#00c6ff);
+  color:#fff;
+}
+#searchBar .refresh-btn{
+  background:linear-gradient(90deg,#0078ff,#00c6ff);
+  color:#fff;
+}
+iframe{width:100%;height:calc(100vh - 108px);border:none;background:#fff}
+#errorText{display:none;text-align:center;margin-top:40px;color:#666;font-size:1rem}
+#errorText a{color:#0078ff}
+
+/* 响应式设计 */
+@media (max-width: 320px) {
+  #searchBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #searchBar input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  #searchBar button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <!-- 顶部标签栏：初始空 -->
+  <div id="tabsWrap"></div>
+
+  <!-- 搜索栏 -->
+  <div id="searchBar">
+    <button id="backBtn" onclick="window.location.href='index.html'">返回官网</button>
+    <input id="kwInput" placeholder="输入关键词…" onkeydown="if(event.key==='Enter') goSearch()">
+    <button onclick="goSearch()"><i class="fas fa-search"></i></button>
+    <button class="back-web" onclick="historyBack()"><i class="fas fa-reply"></i></button>
+    <button class="refresh-btn" onclick="refreshFrame()"><i class="fas fa-sync-alt"></i></button>
+  </div>
+
+  <iframe id="frameBox" src="about:blank"></iframe>
+  <div id="errorText">
+    加载失败，可能被限制嵌入。<br>
+    <a id="openNewTab" href="about:blank" target="_blank">点击在新标签页打开</a>
+  </div>
+</div>
+
+<script>
+const site = 'dongshengamestudio.github.io';
+let tabs = [];
+let activeId = null;
+
+// 刷新当前标签页
+function refreshFrame() {
+  if (activeId !== null) {
+    const activeTab = tabs.find(t => t.id === activeId);
+    if (activeTab) {
+      loadUrl(activeTab.url);
+    }
+  }
+}
+
+// 返回上一页（尝试在iframe内返回）
+function historyBack() {
+  const frame = document.getElementById('frameBox');
+  try {
+    // 尝试在iframe内执行返回
+    frame.contentWindow.history.back();
+  } catch (e) {
+    // 跨域时无法操作iframe历史记录，使用页面级返回
+    history.back();
+  }
+}
+
+function renderTabs(){
+  const wrap = document.getElementById('tabsWrap');
+  wrap.innerHTML = '';
+  tabs.forEach(t=>{
+    const span = document.createElement('span');
+    span.className = 'tab'+(t.id===activeId?' active':'');
+    span.innerHTML = `${t.title}<i class="fas fa-times close" onclick="delTab(${t.id},event)"></i>`;
+    span.onclick = (e)=>{if(!e.target.classList.contains('close')) switchTab(t.id)};
+    wrap.appendChild(span);
+  });
+}
+
+function addTab(title,url){
+  const id = Date.now();
+  tabs.push({id,title,url,history:[url]});
+  activeId = id;
+  renderTabs();
+  loadUrl(url);
+}
+
+function switchTab(id){
+  activeId = id;
+  renderTabs();
+  document.getElementById('frameBox').src = tabs.find(t=>t.id===activeId).url;
+}
+
+function delTab(id,e){
+  e.stopPropagation();
+  const idx = tabs.findIndex(t=>t.id===id);
+  tabs.splice(idx,1);
+  if(activeId===id){
+    activeId = tabs.length?tabs[Math.max(0,idx-1)].id:null;
+  }
+  renderTabs();
+  document.getElementById('frameBox').src = activeId?tabs.find(t=>t.id===activeId).url:'about:blank';
+}
+
+function goSearch(){
+  const kw = document.getElementById('kwInput').value.trim();
+  if(!kw) return;
+  const url = `https://www.bing.com/search?q=${encodeURIComponent(kw)}`;
+  const exist = tabs.find(t=>t.title===kw);
+  if(exist){
+    switchTab(exist.id);
+    loadUrl(url);
+  }else{
+    addTab(kw,url);
+  }
+}
+
+function loadUrl(url){
+  const frame = document.getElementById('frameBox');
+  const err   = document.getElementById('errorText');
+  const link  = document.getElementById('openNewTab');
+  frame.style.display='block';
+  err.style.display='none';
+  frame.src=url;
+  let timer = setTimeout(()=>{
+    frame.style.display='none';
+    err.style.display='block';
+    link.href=url;
+  },5000);
+  frame.onload  = ()=>clearTimeout(timer);
+  frame.onerror = ()=>clearTimeout(timer);
+}
+</script>
+</body>
+</html>
