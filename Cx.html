@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>东神工作室-账号辨别系统</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0c0c1a 0%, #0a0f2a 100%);
+      color: #e6e6e6;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* 星空背景 */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .star {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(30, 30, 46, 0.85);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(78, 204, 163, 0.3);
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+    
+    .container:hover {
+      transform: translateY(-5px);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      background: linear-gradient(90deg, #4ecca3, #87cefa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px rgba(78, 204, 163, 0.3);
+      letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
+      padding: 0 20px;
+    }
+    
+    .header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 20%;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #4ecca3, transparent);
+    }
+    
+    .header p {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: #a7d3ff;
+      max-width: 600px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+    
+    .function-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: white;
+      text-align: center;
+      margin: 30px 0;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(78, 204, 163, 0.3);
+      position: relative;
+    }
+    
+    .function-title i {
+      color: #4ecca3;
+      margin-right: 10px;
+    }
+    
+    .search-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 40px 0;
+    }
+    
+    .search-box {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 18px 25px 18px 45px;
+      border-radius: 12px 0 0 12px;
+      border: none;
+      background: rgba(20, 20, 35, 0.7);
+      color: #f8f8f8;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      transition: all 0.3s;
+      outline: none;
+      border: 1px solid rgba(78, 204, 163, 0.2);
+    }
+    
+    .search-input::placeholder {
+      color: #aaa;
+    }
+    
+    .search-input:focus {
+      background: rgba(25, 25, 45, 0.9);
+      box-shadow: 0 0 0 3px rgba(78, 204, 163, 0.3);
+      border-color: #4ecca3;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4ecca3;
+      font-size: 1.2rem;
+    }
+    
+    .search-btn {
+      padding: 0 35px;
+      border: none;
+      border-radius: 0 12px 12px 0;
+      background: linear-gradient(90deg, #1e90ff, #0066ff);
+      color: white;
+      font-weight: bold;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .search-btn:hover {
+      background: linear-gradient(90deg, #0066ff, #0044cc);
+      box-shadow: 0 8px 25px rgba(30, 144, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .info-section {
+      margin-top: 40px;
+      padding: 25px;
+      background: rgba(40, 40, 60, 0.5);
+      border-radius: 15px;
+      border: 1px solid rgba(78, 204, 163, 0.2);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .info-section h3 {
+      color: #4ecca3;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-section p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+      padding-left: 30px;
+    }
+    
+    .verification-steps {
+      padding-left: 30px;
+      margin: 20px 0;
+    }
+    
+    .verification-steps li {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 25px;
+    }
+    
+    .verification-steps li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #4ecca3;
+      font-weight: bold;
+    }
+    
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      padding: 20px 0;
+      width: 100%;
+      border-top: 1px solid rgba(78, 204, 163, 0.2);
+    }
+    
+    .copyright {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: #aaa;
+    }
+    
+    .input-hint {
+      color: #ffa502;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      margin-top: 5px;
+      text-align: center;
+      max-width: 600px;
+      padding: 0 10px;
+    }
+    
+    .input-hint i {
+      margin-right: 5px;
+    }
+    
+    .validation-error {
+      display: none;
+      color: #ff6b6b;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      margin-top: 10px;
+      text-align: center;
+      padding: 8px 15px;
+      background: rgba(150, 0, 0, 0.2);
+      border-radius: 8px;
+      max-width: 600px;
+    }
+    
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(78, 204, 163, 0.2);
+      padding: 8px 15px;
+      border-radius: 50px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .database-info {
+      margin-top: 30px;
+      background: rgba(40, 40, 60, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .database-info h3 {
+      color: #4ecca3;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .db-stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    
+    .stat-box {
+      background: rgba(20, 20, 35, 0.7);
+      padding: 15px 20px;
+      border-radius: 10px;
+      min-width: 150px;
+      border: 1px solid rgba(78, 204, 163, 0.2);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4ecca3;
+      margin: 5px 0;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    
+    /* 结果弹窗样式 */
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      background: rgba(30, 30, 46, 0.95);
+      color: #f8f8f8;
+      border-radius: 12px;
+      width: 95%;
+      max-width: 650px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.6;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(78, 204, 163, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalAppear 0.4s ease-out;
+    }
+    
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .modal-close {
+      position: sticky;
+      top: 10px;
+      right: 10px;
+      float: right;
+      font-size: 28px;
+      cursor: pointer;
+      color: #ff6b6b;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s;
+      margin-bottom: 10px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .modal-close:hover {
+      background: rgba(255, 107, 107, 0.2);
+      transform: rotate(90deg);
+    }
+    
+    .modal-title {
+      font-size: clamp(1.6rem, 4vw, 2rem);
+      margin-bottom: 25px;
+      color: #4ecca3;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(78, 204, 163, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .result-content {
+      padding: 25px;
+      border-radius: 15px;
+      margin: 20px 0;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      line-height: 1.8;
+      text-align: center;
+      background: rgba(40, 40, 60, 0.3);
+      border: 1px solid rgba(78, 204, 163, 0.2);
+    }
+    
+    .player-name {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 10px;
+      background: rgba(40, 40, 60, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .player-label {
+      color: #a7d3ff;
+      font-weight: 500;
+    }
+    
+    .player-value {
+      color: #1e90ff;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+    }
+    
+    .authentication-result {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      margin: 20px 0;
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    
+    .authentication-valid {
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      background: rgba(0, 100, 0, 0.2);
+    }
+    
+    .authentication-invalid {
+      color: #ff0000;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      background: rgba(100, 0, 0, 0.2);
+    }
+    
+    .judgement-result {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      margin: 20px 0;
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    
+    .judgement-valid {
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      background: rgba(0, 100, 0, 0.2);
+    }
+    
+    .judgement-invalid {
+      color: #ff0000;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      background: rgba(100, 0, 0, 0.2);
+    }
+    
+    .result-message {
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      margin: 25px 0;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    .valid-message {
+      color: white;
+      background: rgba(0, 100, 0, 0.2);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+    }
+    
+    .invalid-message {
+      color: #ff6b6b;
+      font-weight: bold;
+      background: rgba(100, 0, 0, 0.2);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+    }
+    
+    .official-contact {
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      color: white;
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(30, 30, 50, 0.5);
+      border-radius: 10px;
+      text-align: center;
+      line-height: 1.8;
+    }
+    
+    .modal-btn {
+      padding: 14px 35px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #4ecca3, #2d9b7c);
+      color: white;
+      font-weight: bold;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .modal-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      flex-direction: column;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(78, 204, 163, 0.3);
+      border-top: 5px solid #4ecca3;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .search-box {
+        flex-direction: column;
+      }
+      
+      .search-input {
+        border-radius: 12px;
+        margin-bottom: 15px;
+        padding: 16px 20px 16px 45px;
+      }
+      
+      .search-btn {
+        border-radius: 12px;
+        padding: 16px;
+        justify-content: center;
+      }
+      
+      .db-stats {
+        gap: 15px;
+      }
+      
+      .stat-box {
+        min-width: 120px;
+        padding: 12px 15px;
+      }
+      
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .function-title {
+        font-size: 1.4rem;
+      }
+      
+      .search-input, .search-btn {
+        font-size: 1.1rem;
+      }
+      
+      .db-stats {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 右上角返回按钮 - 跳转到Gdsx.html’ -->
+  <div style="position:fixed;top:10px;right:15px;z-index:2000;">
+    <button onclick="location.href='Gdsx.html'" style="background:#ff4d4f;border:none;color:#fff;font-size:20px;padding:6px 10px;border-radius:50%;cursor:pointer;">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- 星空背景 -->
+  <div class="stars" id="stars"></div>
+  
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-shield-alt"></i>东神服务器账号辨别系统</h1>
+      <p>高级安全认证保障您的权益，防止冒充身份</p>
+      <div class="security-badge">
+        <i class="fas fa-lock"></i>
+        <span>安全连接 · 加密验证 · 实时更新</span>
+      </div>
+    </div>
+    
+    <div class="function-title">
+      <i class="fas fa-user-check"></i>官方或内部人员账号真假辨别
+    </div>
+    
+    <div class="search-container">
+      <div class="search-box">
+        <div class="search-icon">
+          <i class="fas fa-key"></i>
+        </div>
+        <input type="text" class="search-input" id="authenticationCode" 
+               placeholder="请输入10位认证码 (如: AbC123dEf4)" 
+               title="请输入10位大小写字母和数字">
+        <button class="search-btn" id="verifyBtn">
+          <i class="fas fa-search"></i>认证真伪
+        </button>
+      </div>
+      <p class="input-hint">
+        <i class="fas fa-info-circle"></i>认证码格式：10位大小写字母和数字组合
+      </p>
+      <div class="validation-error" id="validationError">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorMessage"></span>
+      </div>
+    </div>
+    
+    <div class="database-info">
+      <h3><i class="fas fa-database"></i>认证数据库状态</h3>
+      <p>我们的数据库实时更新，确保验证结果的准确性和及时性</p>
+      <div class="db-stats">
+        <div class="stat-box">
+          <div class="stat-value" id="totalRecords">0</div>
+          <div class="stat-label">总认证码数量</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="lastUpdate">0</div>
+          <div class="stat-label">上次更新时间</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="validRecords">0</div>
+          <div class="stat-label">有效认证码数量</div>
+        </div>
+      </div>
+      <button class="modal-btn" id="reloadBtn" style="margin-top: 20px;">
+        <i class="fas fa-sync"></i>刷新数据库信息面板状态
+      </button>
+    </div>
+    
+    <div class="info-section">
+      <h3><i class="fas fa-info-circle"></i>系统说明</h3>
+      <p>本系统用于验证东神服务器官方人员身份的真实性。所有官方人员均持有唯一认证码，可通过此系统进行验证。</p>
+      
+      <h3><i class="fas fa-list-ol"></i>认证流程</h3>
+      <ol class="verification-steps">
+        <li>点击找到你想要认证辨别真假的我的世界网易版的玩家头像点进去选择主页，在主页简介底下有显示认证码</li>
+        <li>在输入框中输入完整认证码（十位大小写加数字）</li>
+        <li>点击"认证真伪"按钮</li>
+        <li>系统将返回认证结果</li>
+      </ol>
+      
+      <h3><i class="fas fa-exclamation-triangle"></i>注意事项</h3>
+      <p>认证码是区分大小写的，请确保输入正确。所有认证码均为系统自动生成，无法伪造。</p>
+    </div>
+    
+    <div class="footer">
+      <p class="copyright">
+        ©2025 • 东神团队 | 认证系统版本：1.6.2 | 东神工作室 | 东神工作室有权保留一切
+      </p>
+    </div>
+  </div>
+  
+  <!-- 认证结果弹窗 -->
+  <div class="result-modal" id="resultModal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeModal">&times;</span>
+      <h2 class="modal-title"><i class="fas fa-clipboard-check"></i>认证结果</h2>
+      
+      <div id="resultDisplay">
+        <!-- 结果内容将由JavaScript动态填充 -->
+      </div>
+      
+      <button class="modal-btn" id="closeResultBtn">
+        <i class="fas fa-times"></i>关闭
+      </button>
+    </div>
+  </div>
+  
+  <!-- 加载数据弹窗 -->
+  <div class="result-modal" id="loadingModal">
+    <div class="modal-content">
+      <div class="loading">
+        <div class="spinner"></div>
+        <h3>正在获取数据库哈希值并对比哈希值信息中••••••</h3>
+        <p>正在连接东神认证服务器，请稍等●●●●●●</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入V.js文件 - 使用时间戳防止缓存 -->
+  <script>
+    function loadVjs() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        // 添加时间戳参数防止缓存
+        script.src = 'V.js?' + new Date().getTime();
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+  </script>
+
+  <script>
+    // 全局变量
+    let totalRecordsRaw = 0; // 原始记录总数（包括无效的）
+    let authenticationDatabase = []; // 存储过滤后的有效记录
+    let lastUpdateDate = null; // 存储从V.js获取的时间
+
+    // 创建星空背景
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 200;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // 随机位置和大小
+        const size = Math.random() * 3;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = 2 + Math.random() * 3;
+        
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${posX}%`;
+        star.style.top = `${posY}%`;
+        star.style.animationDelay = `${delay}s`;
+        star.style.animationDuration = `${duration}s`;
+        
+        starsContainer.appendChild(star);
+      }
+    }
+    
+    // 显示验证错误
+    function showValidationError(message) {
+      const errorElement = document.getElementById('validationError');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      errorMessage.textContent = message;
+      errorElement.style.display = 'block';
+      
+      // 5秒后自动隐藏
+      setTimeout(() => {
+        errorElement.style.display = 'none';
+      }, 5000);
+    }
+    
+    // 从V.js文件加载数据
+    async function loadAuthenticationData() {
+      try {
+        // 显示加载动画
+        document.getElementById('loadingModal').style.display = 'flex';
+        
+        // 确保V.js文件加载完成
+        await loadVjs();
+        
+        // 使用全局变量 authenticationDatabase 从V.js加载
+        if (typeof window.authenticationDatabase === 'undefined') {
+          throw new Error('V.js文件未正确加载或未定义authenticationDatabase变量');
+        }
+        
+        // 保存原始记录数
+        totalRecordsRaw = window.authenticationDatabase.length;
+        
+        // 过滤掉无效记录（code为"？"的记录）
+        authenticationDatabase = window.authenticationDatabase.filter(item => 
+          item.code !== "？" && item.code.length === 10
+        );
+        
+        // 尝试从V.js获取最后更新时间
+        if (typeof window.lastUpdateTimeFromVJS !== 'undefined') {
+          // 解析V.js中提供的时间字符串
+          const dateParts = window.lastUpdateTimeFromVJS.match(/(\d{4})年(\d{1,2})月(\d{1,2})日(\d{1,2}):(\d{1,2})/);
+          if (dateParts) {
+            const year = parseInt(dateParts[1]);
+            const month = parseInt(dateParts[2]) - 1; // 月份从0开始
+            const day = parseInt(dateParts[3]);
+            const hour = parseInt(dateParts[4]);
+            const minute = parseInt(dateParts[5]);
+            lastUpdateDate = new Date(year, month, day, hour, minute);
+          }
+        }
+        
+        // 更新数据库状态
+        updateDatabaseStats();
+        
+        // 隐藏加载动画
+        document.getElementById('loadingModal').style.display = 'none';
+        
+      } catch (error) {
+        console.error('加载认证数据失败:', error);
+        document.getElementById('loadingModal').style.display = 'none';
+        showValidationError('无法加载认证数据，请检查V.js文件');
+      }
+    }
+    
+    // 更新数据库统计信息
+    function updateDatabaseStats() {
+      const totalRecords = totalRecordsRaw; // 原始记录总数
+      const validRecords = authenticationDatabase.length; // 有效记录数
+      
+      document.getElementById('totalRecords').textContent = totalRecords;
+      document.getElementById('validRecords').textContent = validRecords;
+      
+      // 更新最后更新时间显示
+      if (lastUpdateDate) {
+        const now = new Date();
+        const diffSeconds = Math.floor((now - lastUpdateDate) / 1000);
+        
+        let timeString;
+        
+        if (diffSeconds < 10) {
+          timeString = "刚刚";
+        } else if (diffSeconds < 60) {
+          timeString = `${diffSeconds}秒`;
+        } else if (diffSeconds < 3600) {
+          const minutes = Math.floor(diffSeconds / 60);
+          timeString = `${minutes}分钟`;
+        } else if (diffSeconds < 86400) {
+          const hours = Math.floor(diffSeconds / 3600);
+          timeString = `${hours}小时`;
+        } else if (diffSeconds < 2592000) { // 30天
+          const days = Math.floor(diffSeconds / 86400);
+          timeString = `${days}天`;
+        } else if (diffSeconds < 31536000) { // 365天
+          const months = Math.floor(diffSeconds / 2592000);
+          timeString = `${months}个月`;
+        } else {
+          const years = Math.floor(diffSeconds / 31536000);
+          timeString = `${years}年`;
+        }
+        
+        document.getElementById('lastUpdate').textContent = timeString;
+      } else {
+        document.getElementById('lastUpdate').textContent = "未知";
+      }
+    }
+    
+    // 认证功能
+    function verifyAuthentication() {
+      const codeInput = document.getElementById('authenticationCode').value.trim();
+      const resultModal = document.getElementById('resultModal');
+      const resultDisplay = document.getElementById('resultDisplay');
+      const validationError = document.getElementById('validationError');
+      
+      // 隐藏之前的错误信息
+      validationError.style.display = 'none';
+      
+      // 验证输入格式
+      if (!codeInput) {
+        showValidationError("请输入认证码");
+        return;
+      }
+      
+      if (codeInput.length !== 10) {
+        showValidationError("认证码必须为10位字符");
+        return;
+      }
+      
+      if (!/^[A-Za-z0-9]{10}$/.test(codeInput)) {
+        showValidationError("认证码只能包含大小写字母和数字");
+        return;
+      }
+      
+      // 检查复杂度
+      const hasUpperCase = /[A-Z]/.test(codeInput);
+      const hasLowerCase = /[a-z]/.test(codeInput);
+      const hasNumber = /[0-9]/.test(codeInput);
+      
+      if (!hasUpperCase || !hasLowerCase || !hasNumber) {
+        showValidationError("认证码必须包含大小写字母和数字");
+        return;
+      }
+      
+      // 显示加载弹窗
+      document.getElementById('loadingModal').style.display = 'flex';
+      
+      // 16秒后关闭加载动画并显示结果
+      setTimeout(() => {
+        document.getElementById('loadingModal').style.display = 'none';
+        
+        // 在数据库中查找认证码
+        const result = authenticationDatabase.find(item => item.code === codeInput);
+        
+        let playerName = "";
+        
+        if (result) {
+          playerName = result.name;
+        }
+        
+        // 构建结果HTML
+        let resultHTML = `
+          <div class="result-content">
+            <div class="player-name">
+              <span class="player-label">认证码:</span>
+              <span class="player-value">${codeInput}</span>
+            </div>
+            
+            <div class="player-name">
+              <span class="player-label">玩家名称:</span>
+              <span class="player-value">${playerName || "未匹配到官方人员"}</span>
+            </div>
+        `;
+        
+        if (result) {
+          // 找到认证码 - 显示有效结果
+          resultHTML += `
+            <div class="authentication-result authentication-valid">
+              <i class="fas fa-check-circle"></i> 认证判定: 认证码有效
+            </div>
+            
+            <div class="judgement-result judgement-valid">
+              <i class="fas fa-user-shield"></i> 判定结果: 官方人员或内部人员
+            </div>
+            
+            <div class="result-message valid-message">
+              <i class="fas fa-shield-alt"></i> 认证通过: 此人为内部人员或官方人员,您可以放心交流。
+            </div>
+          `;
+        } else {
+          // 未找到认证码 - 显示无效结果
+          resultHTML += `
+            <div class="authentication-result authentication-invalid">
+              <i class="fas fa-times-circle"></i> 认证判定: 认证码无效
+            </div>
+            
+            <div class="judgement-result judgement-invalid">
+              <i class="fas fa-user-slash"></i> 判定结果: 冒充身份
+            </div>
+            
+            <div class="result-message invalid-message">
+              <i class="fas fa-exclamation-triangle"></i> 请注意: 此人为冒充人员!
+            </div>
+          `;
+        }
+        
+        // 添加联系信息
+        resultHTML += `
+            <div class="official-contact">
+              <i class="fas fa-envelope"></i> 如果您认为这是系统错误, 请联系官方人员<br><br>
+              <strong>官方邮箱:</strong><br>
+              dong_shen_server@163.com<br>
+              dong_shen_server@126.com<br>
+              dong_shen_gzs@163.com<br>
+              dong_shen_gzs@126.com
+            </div>
+          </div>
+        `;
+        
+        resultDisplay.innerHTML = resultHTML;
+        
+        // 显示结果弹窗
+        resultModal.style.display = "flex";
+      }, 16000);
+    }
+    
+    // 关闭弹窗
+    function closeModal() {
+      document.getElementById('resultModal').style.display = "none";
+      // 清空输入框
+      document.getElementById('authenticationCode').value = "";
+    }
+    
+    // 页面加载完成后执行
+    window.addEventListener('DOMContentLoaded', async () => {
+      createStars();
+      
+      // 页面刷新时显示加载动画
+      document.getElementById('loadingModal').style.display = 'flex';
+      try {
+        // 加载认证数据
+        await loadAuthenticationData();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        document.getElementById('loadingModal').style.display = 'none';
+      }
+      
+      // 设置按钮事件
+      document.getElementById('verifyBtn').addEventListener('click', verifyAuthentication);
+      document.getElementById('closeModal').addEventListener('click', closeModal);
+      document.getElementById('closeResultBtn').addEventListener('click', closeModal);
+      document.getElementById('reloadBtn').addEventListener('click', async () => {
+        document.getElementById('loadingModal').style.display = 'flex';
+        try {
+          await loadAuthenticationData();
+          showValidationError("数据库信息面板状态已刷新!");
+        } catch (e) {
+          showValidationError("数据库信息面板状态刷新失败: " + e.message);
+        } finally {
+          document.getElementById('loadingModal').style.display = 'none';
+        }
+      });
+      
+      // 支持按Enter键认证
+      document.getElementById('authenticationCode').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          verifyAuthentication();
+        }
+      });
+      
+      // 输入限制
+      document.getElementById('authenticationCode').addEventListener('input', function() {
+        this.value = this.value.replace(/[^A-Za-z0-9]/g, '').substring(0, 10);
+      });
+      
+      // 每秒更新一次时间显示
+      setInterval(updateDatabaseStats, 1000);
+    });
+  </script>
+</body>
+</html>
