@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>东神工作室官网-更多选项</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0c0c1a 0%, #0a0f2a 100%);
+      color: #e6e6e6;
+      min-height: 100vh;
+      padding: 100px 15px 80px;
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 左侧指示条 */
+    .direction-indicator {
+      position: fixed;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 240px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 0;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .direction-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      color: #000;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+    
+    .top-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(12, 12, 26, 0.95);
+      padding: 20px 15px;
+      text-align: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 51, 51, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+    
+    .tech-phrase {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      background: linear-gradient(90deg, #ff3333, #8b0000);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.4;
+      font-weight: bold;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .star {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin: 30px 0 50px;
+      width: 100%;
+      max-width: 350px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .button-container.show {
+      opacity: 1;
+    }
+    
+    .action-btn {
+      padding: 18px 35px;
+      border: none;
+      border-radius: 0;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      padding-left: 45px;
+      transform: translateX(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .action-btn.selected {
+      transform: translateX(20px);
+    }
+    
+    #searchButton {
+      background: linear-gradient(90deg, #1e90ff, #0066ff);
+    }
+    
+    #financeButton {
+      background: linear-gradient(90deg, #FFFACD, #F0E68C);
+      color: #8B7500;
+    }
+    
+    #financeButton .btn-icon {
+      color: #FFD700;
+    }
+    
+    #resourceButton {
+      background: linear-gradient(90deg, #32CD32, #228B22);
+    }
+    
+    #appButton {
+      background: linear-gradient(90deg, #ffffff, #f0f0f0);
+      color: #32CD32;
+    }
+    
+    .icon-combo {
+      width: 40px;
+      height: 40px;
+      position: relative;
+    }
+    
+    .icon-combo .fa-user {
+      font-size: 26px;
+      position: absolute;
+      top: 5px;
+      left: 0;
+    }
+    
+    .icon-combo .fa-magnifying-glass {
+      font-size: 18px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #1e90ff;
+      border-radius: 50%;
+      padding: 3px;
+      border: 2px solid white;
+    }
+    
+    .btn-icon {
+      font-size: 24px;
+      width: 40px;
+      text-align: center;
+    }
+    
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .copyright {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: #aaa;
+      opacity: 0.7;
+    }
+    
+    .close-btn-container {
+      position: fixed;
+      top: 10px;
+      right: 15px;
+      z-index: 2000;
+    }
+    
+    .close-btn {
+      background: #ff4d4f;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      padding: 6px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 左侧指示条 -->
+  <div class="direction-indicator">
+    <div class="direction-text">按方向键选择，回车键确认</div> <!-- 修改了提示文字 -->
+  </div>
+  
+  <div class="top-banner">
+    <div class="tech-phrase">科技不是高高在上，而是服务于人民</div>
+  </div>
+  
+  <div class="close-btn-container">
+    <button class="close-btn" id="closeButton">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div class="stars" id="stars"></div>
+  
+  <div class="button-container" id="buttonContainer">
+    <button class="action-btn" id="searchButton" tabindex="0">
+      <div class="icon-combo">
+        <i class="fas fa-user"></i>
+        <i class="fas fa-magnifying-glass"></i>
+      </div>
+      账号查询
+    </button>
+    
+    <button class="action-btn" id="financeButton" tabindex="0">
+      <i class="fas fa-sack-dollar btn-icon" style="color: #FFD700;"></i>
+      财务库
+    </button>
+    
+    <button class="action-btn" id="resourceButton" tabindex="0">
+      <i class="fas fa-toolbox btn-icon"></i>
+      资源库
+    </button>
+    
+    <button class="action-btn" id="appButton" tabindex="0">
+      <i class="fas fa-store btn-icon"></i>
+      应用市场
+    </button>
+  </div>
+  
+  <div class="footer">
+    <p class="copyright">©2025 • 东神团队 | 东神工作室官网 | 东神工作室 | 东神服务器 |  东神工作室与东神服务器有权保留一切</p>
+  </div>
+
+  <script>
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 200; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.width = `${Math.random() * 3}px`;
+        star.style.height = `${Math.random() * 3}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        star.style.animationDuration = `${2 + Math.random() * 3}s`;
+        starsContainer.appendChild(star);
+      }
+    }
+    
+    let currentButtonIndex = 0;
+    const buttons = document.querySelectorAll('.action-btn');
+    const buttonContainer = document.getElementById('buttonContainer');
+    let isKeyboardActive = false;
+
+    function showButtons() {
+      buttonContainer.classList.add('show');
+    }
+    
+    function updateSelectedButton() {
+      buttons.forEach((btn, index) => {
+        btn.classList.toggle('selected', index === currentButtonIndex);
+        if (index === currentButtonIndex) btn.focus();
+      });
+    }
+    
+    function handleKeyboardNavigation(e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        
+        if (!isKeyboardActive) {
+          isKeyboardActive = true;
+          showButtons();
+        }
+        
+        currentButtonIndex = e.key === 'ArrowDown' 
+          ? (currentButtonIndex + 1) % buttons.length 
+          : (currentButtonIndex - 1 + buttons.length) % buttons.length;
+        
+        updateSelectedButton();
+      } 
+      // 添加回车键确认功能
+      else if (e.key === 'Enter' && isKeyboardActive) {
+        e.preventDefault();
+        // 触发当前选中按钮的点击事件
+        buttons[currentButtonIndex].click();
+      }
+    }
+    
+    document.addEventListener('keydown', handleKeyboardNavigation);
+    
+    document.addEventListener('mousemove', (e) => {
+      const centerY = window.innerHeight / 2;
+      if (e.clientY > centerY - 200 && e.clientY < centerY + 200 && !isKeyboardActive) {
+        showButtons();
+      }
+    });
+    
+    document.getElementById('searchButton').onclick = () => location.href = "Cx.html";
+    document.getElementById('financeButton').onclick = () => location.href = "Cwk.html";
+    document.getElementById('resourceButton').onclick = () => location.href = "Zyk.html";
+    document.getElementById('appButton').onclick = () => location.href = "Yysd.html";
+    document.getElementById('closeButton').onclick = () => location.href = "index.html";
+    
+    createStars();
+    updateSelectedButton();
+  </script>
+</body>
+</html>

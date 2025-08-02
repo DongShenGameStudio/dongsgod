@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东神服务器官网-财务库</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 100%);
+            color: #e0e0ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 星空背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        /* 我的世界主题像素边框 */
+        .pixel-border {
+            border: 4px solid;
+            border-image: 
+                linear-gradient(
+                    45deg, 
+                    #4d9de0, 
+                    #3a86ff, 
+                    #8338ec
+                ) 1;
+            position: relative;
+            box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
+        }
+        
+        .pixel-border::before {
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            z-index: -1;
+            background: linear-gradient(45deg, #4d9de0, #3a86ff, #8338ec);
+            filter: blur(10px);
+        }
+        
+        /* 标题和导航 */
+        header {
+            padding: 40px 20px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 77, 79, 0.2);
+            border: 2px solid #ff4d4f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 77, 79, 0.4);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 77, 79, 0.7);
+        }
+        
+        .close-btn i {
+            font-size: 1.8rem;
+            color: #ff4d4f;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .action-btn {
+            background: linear-gradient(45deg, #4d9de0, #3a86ff);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
+            font-size: 1.3rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(58, 134, 255, 0.6);
+        }
+        
+        .action-btn:hover::before {
+            left: 100%;
+        }
+        
+        .action-btn.vip {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        .action-btn.vip:hover {
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.6);
+        }
+        
+        /* 主内容区 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(13, 19, 33, 0.8);
+            padding: 25px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4d9de0, #3a86ff, #8338ec);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #4d9de0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+            justify-content: center;
+        }
+        
+        .card-title i {
+            font-size: 2.2rem;
+            color: #ffd700;
+        }
+        
+        /* 我的世界方块元素 */
+        .minecraft-block {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #4d9de0, #3a86ff);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+        
+        .block-1 {
+            top: 10%;
+            left: 5%;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .block-2 {
+            bottom: 15%;
+            right: 7%;
+            animation: float 10s infinite ease-in-out;
+            animation-delay: 1s;
+        }
+        
+        .block-3 {
+            top: 25%;
+            right: 10%;
+            animation: float 12s infinite ease-in-out;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(-20px); }
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            color: #a0a0ff;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        /* 确认弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0c1445 100%);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            border: 3px solid #4d9de0;
+            box-shadow: 0 0 25px rgba(77, 157, 224, 0.8);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #3a86ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+        }
+        
+        .modal-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #e0e0ff;
+            line-height: 1.6;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .modal-confirm {
+            background: linear-gradient(45deg, #4d9de0, #3a86ff);
+            color: white;
+        }
+        
+        .modal-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0ff;
+            border: 1px solid #4d9de0;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
+        }
+        
+        .vip-benefits {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .vip-item {
+            text-align: center;
+            padding: 20px;
+            width: 45%;
+            margin-bottom: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .vip-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .vip-item i {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .vip-item h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .vip-item p {
+            font-size: 1rem;
+            color: #e0e0ff;
+        }
+        
+        @media (max-width: 600px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .action-btn {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .vip-item {
+                width: 100%;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- 我的世界方块装饰 -->
+    <div class="minecraft-block block-1"></div>
+    <div class="minecraft-block block-2"></div>
+    <div class="minecraft-block block-3"></div>
+    
+    <!-- 关闭按钮 -->
+    <div class="close-btn" id="closeBtn">
+        <i class="fas fa-times"></i>
+    </div>
+    
+    <header>
+        <div class="action-buttons">
+            <button class="action-btn" id="rechargeBtn">
+                <i class="fas fa-coins"></i> 充值Re币
+            </button>
+            <button class="action-btn vip" id="vipBtn">
+                <i class="fas fa-crown"></i> 开通会员
+            </button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- VIP特权 -->
+        <div class="card pixel-border">
+            <h2 class="card-title"><i class="fas fa-crown"></i> 会员尊享特权</h2>
+            
+            <div class="vip-benefits">
+                <div class="vip-item">
+                    <i class="fas fa-gift"></i>
+                    <h3>每月福利</h3>
+                    <p>每月领取SUDKC五条</p>
+                </div>
+                
+                <div class="vip-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Buff加成</h3>
+                    <p>游戏内属性全面提升</p>
+                </div>
+                
+                <div class="vip-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>违规保护</h3>
+                    <p>账号违规处罚最大删减44%</p>
+                </div>
+                
+                <div class="vip-item">
+                    <i class="fas fa-robot"></i>
+                    <h3>外挂特权</h3>
+                    <p>内置外挂购买费用减50%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 充值确认弹窗 -->
+    <div class="modal" id="rechargeModal">
+        <div class="modal-content">
+            <h2 class="modal-title">确认充值</h2>
+            <div class="modal-text">
+                <p>充值比例：¥1 = 100w Re币</p>
+                <p>您确定要进行充值吗？</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmRecharge">确认充值</button>
+                <button class="modal-btn modal-cancel" id="cancelRecharge">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- VIP确认弹窗 -->
+    <div class="modal" id="vipModal">
+        <div class="modal-content">
+            <h2 class="modal-title">开通会员</h2>
+            <div class="modal-text">
+                <p>开通后立即获得：</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px; list-style-type: none;">
+                    <li><i class="fas fa-check-circle" style="color: #4ade80; margin-right: 10px;"></i>每月领取SUDKC五条</li>
+                    <li><i class="fas fa-check-circle" style="color: #4ade80; margin-right: 10px;"></i>Buff加成</li>
+                    <li><i class="fas fa-check-circle" style="color: #4ade80; margin-right: 10px;"></i>账号违规处罚最大删减44%</li>
+                    <li><i class="fas fa-check-circle" style="color: #4ade80; margin-right: 10px;"></i>服务器内置的外挂(不会导致账号封禁) 购买费用减50%</li>
+                </ul>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-confirm" id="confirmVip">立即开通</button>
+                <button class="modal-btn modal-cancel" id="cancelVip">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>©2025 • 东神团队 | 东神工作室官网 | 东神工作室 | 东神服务器 |  东神工作室与东神服务器有权保留一切</p>
+    </footer>
+    
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 随机大小
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 随机位置
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // 随机闪烁速度
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // 获取元素
+            const closeBtn = document.getElementById('closeBtn');
+            const rechargeBtn = document.getElementById('rechargeBtn');
+            const vipBtn = document.getElementById('vipBtn');
+            const rechargeModal = document.getElementById('rechargeModal');
+            const vipModal = document.getElementById('vipModal');
+            const confirmRecharge = document.getElementById('confirmRecharge');
+            const cancelRecharge = document.getElementById('cancelRecharge');
+            const confirmVip = document.getElementById('confirmVip');
+            const cancelVip = document.getElementById('cancelVip');
+            
+            // 关闭按钮点击事件
+            closeBtn.addEventListener('click', function() {
+                window.location.href = 'Gdsx.html';
+            });
+            
+            // 充值按钮点击事件
+            rechargeBtn.addEventListener('click', function() {
+                rechargeModal.style.display = 'flex';
+            });
+            
+            // VIP按钮点击事件
+            vipBtn.addEventListener('click', function() {
+                vipModal.style.display = 'flex';
+            });
+            
+            // 确认充值
+            confirmRecharge.addEventListener('click', function() {
+                window.location.href = 'Cz.html';
+            });
+            
+            // 确认开通VIP
+            confirmVip.addEventListener('click', function() {
+                window.location.href = 'Kthp.html';
+            });
+            
+            // 取消充值
+            cancelRecharge.addEventListener('click', function() {
+                rechargeModal.style.display = 'none';
+            });
+            
+            // 取消VIP
+            cancelVip.addEventListener('click', function() {
+                vipModal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === rechargeModal) {
+                    rechargeModal.style.display = 'none';
+                }
+                if (event.target === vipModal) {
+                    vipModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
