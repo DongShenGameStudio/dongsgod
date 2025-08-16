@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>东神工作室官网 • 科技不是高高在上，而是服务于人民</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    body{background:linear-gradient(135deg,#0c0c1a 0%,#0a0f2a 100%);color:#e6e6e6;min-height:100vh;padding:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;background-attachment:fixed;text-align:center}
+    .top-area{flex-shrink:0;position:relative;padding-top:20px;margin-bottom:15px;width:100%;max-width:800px}
+    h1{font-size:clamp(2.2rem, 6vw, 3.5rem);background:linear-gradient(90deg,#4ecca3,#87cefa);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px;text-shadow:0 0 15px rgba(78,204,163,.3);letter-spacing:1px}
+    h2{font-size:clamp(1.3rem, 4vw, 1.8rem);color:#a7d3ff;margin-top:10px;margin-bottom:15px;font-weight:400}
+    .version-time{position:absolute;top:5px;right:10px;font-size:12px;text-align:right;line-height:1.4;background:rgba(0,0,0,.3);padding:6px 12px;border-radius:20px;border:1px solid rgba(78,204,163,.3)}
+    .version-time .version{color:#007fff}
+    .version-time .time{font-size:16px;font-weight:bold;color:#a7d3ff}
+    .version-time .time-label {color: #00ff00;font-weight: bold;margin-right: 5px;text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);}
+    .main-content{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px 0;width:100%;max-width:800px}
+    .status{font-size:clamp(1.3rem, 5vw, 26px);color:#32cd32;margin-bottom:20px;text-shadow:0 0 10px rgba(50,205,50,.3);animation:pulse 2s infinite}
+    @keyframes pulse{0%{opacity:.8}50%{opacity:1}100%{opacity:.8}}
+    .start-game-container{width:100%;max-width:320px;margin:0 auto 30px}
+    .start-game-btn{display:block;width:100%;padding:16px 0;border:none;border-radius:8px;font-size:clamp(18px, 5vw, 22px);cursor:pointer;background:linear-gradient(90deg,#ffd964,#ff9a1e);font-weight:bold;transition:all .3s ease;box-shadow:0 5px 15px rgba(255,154,30,.3);position:relative;overflow:hidden;color:#fff !important} /* 黑色字体改为白色 */
+    .start-game-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(255,154,30,.5)}
+    .start-game-btn:active{transform:translateY(2px)}
+    .ai-assistant-container{width:100%;max-width:320px;margin:0 auto 30px}
+    .ai-assistant-btn{display:block;width:100%;padding:16px 0;border:none;border-radius:8px;font-size:clamp(18px, 5vw, 22px);cursor:pointer;background:linear-gradient(90deg,#0066ff,#9933ff);font-weight:bold;transition:all .3s ease;box-shadow:0 5px 15px rgba(102, 51, 255, 0.3);position:relative;overflow:hidden;color:#fff} /* 黑色字体改为白色 */
+    .ai-assistant-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(102, 51, 255, 0.5)}
+    .ai-assistant-btn:active{transform:translateY(2px)}
+    
+    /* 新增的站内搜索器按钮样式 */
+    .search-container {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 30px;
+    }
+    .search-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: clamp(18px, 5vw, 22px);
+      cursor: pointer;
+      background: linear-gradient(90deg, #d500f9, #7b1fa2);
+      font-weight: bold;
+      transition: all .3s ease;
+      box-shadow: 0 5px 15px rgba(213, 0, 249, 0.3);
+      position: relative;
+      overflow: hidden;
+      text-shadow: 0 0 10px rgba(213, 0, 249, 0.7);
+      color: #fff; /* 黑色字体改为白色 */
+    }
+    .search-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(213, 0, 249, 0.5);
+    }
+    .search-btn:active {
+      transform: translateY(2px);
+    }
+    
+    /* 新增的更多选项按钮样式 */
+    .more-options-container {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 30px;
+    }
+    .more-options-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: clamp(18px, 5vw, 22px);
+      cursor: pointer;
+      background: linear-gradient(90deg, #ff6b6b, #c0392b);
+      color: #ffffff;
+      font-weight: bold;
+      transition: all .3s ease;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .more-options-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+    }
+    .more-options-btn:active {
+      transform: translateY(2px);
+    }
+    
+    .bottom-area{width:100%;max-width:600px;margin:0 auto;padding:15px}
+    .bottom-buttons{display:flex;flex-direction:column;margin-bottom:20px}
+    .feedback-report-btn{display:block;width:100%;padding:16px 0;border:none;border-radius:8px;font-size:clamp(16px, 4vw, 20px);cursor:pointer;margin:10px 0;background:linear-gradient(90deg,#ff8c00,#ff0000);font-weight:bold;transition:all .3s;box-shadow:0 5px 15px rgba(255,0,0,.3);color:#fff} /* 黑色字体改为白色 */
+    .feedback-report-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(255,0,0,.4)}
+    .btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:15px 0}
+    .btn-row button{flex:1;min-width:150px;padding:14px 0;border:none;border-radius:8px;font-size:clamp(14px, 4vw, 18px);cursor:pointer;background:linear-gradient(90deg,#ff8c00,#ffd964);font-weight:bold;transition:all .3s;box-shadow:0 4px 12px rgba(255,140,0,.3);color:#fff !important} /* 黑色字体改为白色 */
+    .btn-row button:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,140,0,.4)}
+    .copyright{font-size:clamp(14px, 4vw, 18px);color:#aaa;margin:10px 0}
+    .footer{font-size:clamp(12px, 3vw, 14px);color:#777;margin-bottom:8px}
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);justify-content:center;align-items:flex-start;z-index:1000;overflow-y:auto;padding:20px 0;}
+    .modal-box{background:rgba(30,30,46,.95);color:#f8f8f8;border-radius:12px;width:95%;max-width:800px;padding:20px;text-align:left;position:relative;font-size:16px;line-height:1.6;box-shadow:0 10px 30px rgba(0,0,0,.5);backdrop-filter:blur(10px);border:1px solid rgba(78,204,163,.3);max-height:90vh;overflow-y:auto;}
+    .modal-close{position:sticky;top:10px;right:10px;float:right;font-size:24px;cursor:pointer;color:#ff6b6b;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s;margin-bottom:10px;z-index:10;background:rgba(0,0,0,0.7);}
+    .modal-close:hover{background:rgba(255,107,107,.2);transform:rotate(90deg)}
+    .ai-options-container{display:flex;flex-direction:column;gap:15px;margin-top:20px}
+    .ai-option-btn{padding:16px 0;border:none;border-radius:8px;font-size:clamp(16px, 4vw, 18px);cursor:pointer;background:linear-gradient(90deg,#FFD700,#FFA500);font-weight:600;transition:all .3s;box-shadow:0 4px 12px rgba(255,165,0,.3);color:#fff !important} /* 黑色字体改为白色 */
+    .ai-option-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,165,0,.4)}
+    .ai-option-btn:active{transform:translateY(1px)}
+    .ai-dialog{background:rgba(40,40,60,.95);border-radius:12px;padding:20px;margin-top:20px;text-align:center}
+    .ai-dialog h3{color:#4ecca3;margin-bottom:15px;font-size:1.4rem}
+    .ai-dialog .option-info{background:rgba(50,50,75,.7);padding:15px;border-radius:8px;margin:10px 0;font-size:1.1rem}
+    .feedback-system{margin-top:15px}
+    .tabs{display:flex;margin-bottom:20px;border-bottom:2px solid rgba(78,204,163,.3);flex-wrap:wrap}
+    .tab{padding:10px 15px;cursor:pointer;font-size:clamp(14px, 4vw, 18px);font-weight:600;color:#aaa;transition:all .3s;position:relative}
+    .tab.active{color:#4ecca3}
+    .tab.active::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:3px;background:#4ecca3}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .section-title{font-size:clamp(1.3rem, 4vw, 1.8rem);color:#4ecca3;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid rgba(78,204,163,.3)}
+    .form-group{margin-bottom:20px}
+    label{display:block;margin-bottom:10px;font-weight:600;color:#f8f8f8;font-size:clamp(14px, 4vw, 18px)}
+    .required::after{content:'*';color:#ff6b6b;margin-left:5px}
+    input,select,textarea{width:100%;padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(20,20,35,.7);color:#f8f8f8;font-size:clamp(14px, 3vw, 16px);transition:all .3s}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#4ecca3;box-shadow:0 0 0 3px rgba(78,204,163,.2)}
+    textarea{min-height:120px;resize:vertical}
+    .contact-method-container,.feedback-method-container{display:flex;flex-direction:column;gap:12px;margin-bottom:15px}
+    .contact-method-row,.feedback-method-row{display:flex;align-items:center;flex-wrap:wrap}
+    .contact-method-label,.feedback-method-label{flex:1;min-width:120px;text-align:left;font-weight:600;margin-bottom:5px}
+    .contact-method-select,.feedback-method-select{flex:2;display:flex;gap:8px;flex-wrap:wrap}
+    .contact-method-option,.feedback-method-option{flex:1;min-width:80px;padding:10px;border:2px solid rgba(255,255,255,.2);border-radius:6px;text-align:center;cursor:pointer;transition:all .3s;font-size:clamp(12px, 3vw, 14px)}
+    .contact-method-option.selected,.feedback-method-option.selected{background:rgba(78,204,163,.2);border-color:#4ecca3}
+    .upload-section{margin-top:25px;padding-top:20px;border-top:1px dashed rgba(255,255,255,.1)}
+    .upload-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap}
+    .upload-label{font-size:clamp(1rem, 3vw, 1.2rem);color:#ffa502;font-weight:600}
+    .upload-priority{color:#4ecca3;font-size:clamp(0.8rem, 2.5vw, 1rem);background:rgba(78,204,163,.15);padding:6px 12px;border-radius:18px;margin-top:5px}
+    .upload-container{display:flex;flex-wrap:wrap;gap:15px;margin-top:15px}
+    .upload-box{width:100px;height:100px;border-radius:12px;background:rgba(40,40,60,.7);border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+    .upload-box:hover{background:rgba(50,50,75,.8);border-color:rgba(78,204,163,.5)}
+    .upload-box .plus-icon{font-size:2.5rem;color:#d4b483;font-weight:bold}
+    .upload-box input[type="file"]{position:absolute;width:100%;height:100%;opacity:0;cursor:pointer}
+    .preview-item{width:100px;height:100px;border-radius:12px;background:rgba(40,40,60,.7);border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden}
+    .preview-item img,.preview-item video{width:100%;height:100%;object-fit:cover}
+    .preview-item .remove-btn{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.7);color:white;border:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .3s}
+    .preview-item .remove-btn:hover{background:#ff6b6b;transform:scale(1.1)}
+    .submit-btn{background:linear-gradient(90deg,#4ecca3 0%,#2d9b7c 100%);border:none;padding:16px 25px;border-radius:8px;font-size:clamp(16px, 4vw, 18px);font-weight:600;cursor:pointer;width:100%;margin-top:25px;transition:all .3s;box-shadow:0 5px 15px rgba(46,204,113,.3);color:#fff} /* 黑色字体改为白色 */
+    .submit-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(46,204,113,.4)}
+    .file-counter{color:#aaa;font-size:clamp(0.8rem, 2.5vw, 1rem);margin-top:10px;text-align:right}
+    .notification{position:fixed;top:20px;right:-400px;padding:12px 20px;border-radius:6px;background:rgba(26,26,46,.95);border-left:4px solid #ff6b6b;box-shadow:0 5px 15px rgba(0,0,0,.3);transition:right .5s ease;z-index:1000;max-width:300px;font-size:14px}
+    .notification.show{right:15px}
+    .notification.success{border-color:#4ecca3}
+    .notification.error{border-color:#ff6b6b}
+    .qr-modal .modal-box,.minecraft-modal .modal-box{max-width:400px;text-align:center}
+    .qr-modal img{width:100%;max-width:280px;border-radius:8px;margin:12px auto;display:block}
+    
+    /* 新增多二维码样式 */
+    .multi-qr-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .qr-item {
+      flex: 1;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .qr-item img {
+      width: 100%;
+      max-width: 180px;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .qr-label {
+      font-weight: bold;
+      color: #a7d3ff;
+      font-size: 1.1rem;
+      text-align: center;
+      text-shadow: 0 0 5px rgba(167, 211, 255, 0.5);
+    }
+    
+    @media (max-width:768px){body{padding:10px}h1{font-size:2.5rem}h2{font-size:1.5rem}.version-time{position:relative;top:0;right:0;margin:0 auto 15px;width:fit-content;font-size:12px}.btn-row{flex-direction:column}.modal-box{padding:15px;max-height:85vh}.modal-close{top:5px;right:5px;font-size:22px;width:32px;height:32px}.upload-box,.preview-item{width:90px;height:90px}.contact-method-row,.feedback-method-row{flex-direction:column;align-items:flex-start;gap:8px}.contact-method-select,.feedback-method-select{flex-direction:column;width:100%}.contact-method-option,.feedback-method-option{width:100%;padding:8px}.tab{padding:8px 12px;font-size:16px}.section-title{font-size:1.4rem;margin-bottom:15px}.form-group{margin-bottom:15px}input,select,textarea{padding:12px;font-size:14px}textarea{min-height:100px}.submit-btn{padding:14px 20px;font-size:16px;margin-top:20px}.ai-option-btn{padding:14px 0;font-size:16px}
+      .multi-qr-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .qr-item {
+        min-width: 100%;
+      }
+    }
+    @media (max-width:480px){.upload-box,.preview-item{width:80px;height:80px}.modal-box{padding:15px 10px}.modal-close{top:3px;right:3px}.tab{padding:6px 10px;font-size:14px}.section-title{font-size:1.2rem}.label{font-size:15px}.ai-option-btn{padding:12px 0;font-size:15px}}
+  </style>
+</head>
+<body>
+  <div class="top-area">
+    <div class="version-time">
+      <div class="version">当前官网系统版本号： 1.14.0</div>
+      <div class="time" id="liveTime">
+        <span class="time-label">北京时间：</span>
+        <span id="timeValue">00:00:00</span>
+      </div>
+    </div>
+    <h1>《东神工作室官网》</h1>
+    <h2>欢迎访问东神工作室官网</h2>
+  </div>
+
+  <div class="main-content">
+    <!-- 新增的站内搜索器按钮 -->
+    <div class="search-container">
+      <button class="search-btn" onclick="openSearch()">站内搜索器</button>
+    </div>
+    
+    <!-- 新增的更多选项按钮 -->
+    <div class="more-options-container">
+      <button class="more-options-btn" onclick="openMoreOptions()">更多选项</button>
+    </div>
+    
+    <div class="status">网站功能正在开发中……</div>
+    <div class="start-game-container">
+      <button class="start-game-btn" onclick="launchMinecraft()">开始游戏</button>
+    </div>
+    <div class="ai-assistant-container">
+      <button class="ai-assistant-btn" onclick="showAIAssistant()">智能辅助</button>
+    </div>
+  </div>
+
+  <div class="bottom-area">
+    <div class="bottom-buttons">
+      <button class="feedback-report-btn" onclick="showFeedbackReport()">游戏反馈与举报</button>
+    </div>
+    <div class="btn-row">
+  <button onclick="window.open('jrwm.html', '_self')" style="flex: 1; min-width: 250px;">加入我们</button>
+</div>
+    <div class="copyright">©2025 • 东神团队 | 东神工作室官网 | 东神工作室 | 东神服务器 |  东神工作室与东神服务器有权保留一切</div>
+    <div class="footer">本网站由东神团队维护，东神团队有权保留所有权利！</div>
+  </div>
+
+  <!-- 新增的多二维码弹窗 -->
+  <div id="multiQrModal" class="modal" onclick="closeMultiQR()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeMultiQR()">&times;</span>
+      <h2 class="section-title">加入东神工作室</h2>
+      <p style="text-align: center; margin-bottom: 20px; color: #a7d3ff;">请选择您要加入的社群方式</p>
+      
+      <div class="multi-qr-container">
+        <div class="qr-item">
+          <img src="qq.jpg" alt="QQ群二维码">
+          <div class="qr-label">官方QQ交流群</div>
+        </div>
+        <div class="qr-item">
+          <img src="wechat.png" alt="微信群二维码">
+          <div class="qr-label">官方微信交流群</div>
+        </div>
+        <div class="qr-item">
+          <img src="mp.jpg" alt="公众号二维码">
+          <div class="qr-label">官方公众号</div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 25px;">
+        <button class="submit-btn" onclick="closeMultiQR()" style="max-width: 220px; margin: 0 auto;">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 智能辅助弹窗 -->
+  <div id="aiAssistantModal" class="modal" onclick="closeAIAssistant()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeAIAssistant()">&times;</span>
+      <h2 class="section-title">智能辅助选项</h2>
+      <div class="ai-options-container">
+        <button class="ai-option-btn" onclick="showDeepSeekOptions()">DeepSeek</button>
+        <button class="ai-option-btn" onclick="showKimiOptions()">Kimi</button>
+        <button class="ai-option-btn" onclick="showDongHui()">DongHui</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DeepSeek选项弹窗 -->
+  <div id="deepSeekModal" class="modal" onclick="closeDeepSeek()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeDeepSeek()">&times;</span>
+      <h2 class="section-title">DeepSeek选项</h2>
+      <div class="ai-options-container">
+        <button class="ai-option-btn" onclick="openDeepSeek('1.0')">DeepSeek-1.0(无联网搜索)</button>
+        <button class="ai-option-btn" onclick="openDeepSeek('R1')">DeepSeek-R1(无联网搜索)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kimi选项弹窗 -->
+  <div id="kimiModal" class="modal" onclick="closeKimi()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeKimi()">&times;</span>
+      <h2 class="section-title">Kimi选项</h2>
+      <div class="ai-options-container">
+        <button class="ai-option-btn" onclick="openKimi('1.5')">Kimi-1.5(无联网搜索)</button>
+        <button class="ai-option-btn" onclick="openKimi('2.0')">Kimi-2.0(无联网搜索)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DeepSeek结果弹窗 -->
+  <div id="deepSeekResultModal" class="modal" onclick="closeDeepSeekResult()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeDeepSeekResult()">&times;</span>
+      <h2 class="section-title">DeepSeek</h2>
+      <div class="ai-dialog">
+        <h3>DeepSeek网页版</h3>
+        <div class="option-info">
+          当前模式: <span id="deepSeekMode">无深度思考R1</span>
+        </div>
+        <p>DeepSeek是一个强大的AI助手，提供智能问答、代码生成和问题解答功能。</p>
+        <div class="ai-options-container">
+          <button class="ai-option-btn" onclick="window.open('https://chat.deepseek.com/', '_blank')">确定</button>
+          <button class="ai-option-btn" onclick="closeDeepSeekResult()">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kimi结果弹窗 -->
+  <div id="kimiResultModal" class="modal" onclick="closeKimiResult()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeKimiResult()">&times;</span>
+      <h2 class="section-title">Kimi</h2>
+      <div class="ai-dialog">
+        <h3>Kimi网页版</h3>
+        <div class="option-info">
+          当前模式: <span id="kimiMode">K1.5无联网搜索</span>
+        </div>
+        <p>Kimi是一个智能对话助手，专注于提供自然流畅的对话体验和准确的信息。</p>
+        <div class="ai-options-container">
+          <button class="ai-option-btn" onclick="window.open('https://kimi.moonshot.cn/', '_blank')">确定</button>
+          <button class="ai-option-btn" onclick="closeKimiResult()">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DongHui选项界面 -->
+  <div id="donghuiResultModal" class="modal" onclick="closeDongHuiResult()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeDongHuiResult()">&times;</span>
+      <h2 class="section-title">DongHui选项</h2>
+      <div class="ai-dialog">
+        <h3>DongHui网页版</h3>
+        <div class="option-info">
+          东神工作室专属AI助手
+        </div>
+        <p>DongHui是东神工作室-东神团队研发的专属AI助手，提供最佳的科技化智能服务。</p>
+        <div class="ai-options-container">
+          <button class="ai-option-btn" onclick="showDongHuiDevMessage()">确定</button>
+          <button class="ai-option-btn" onclick="closeDongHuiResult()">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 反馈举报弹窗 -->
+  <div id="feedbackReportModal" class="modal" onclick="closeFeedbackReport()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeFeedbackReport()">&times;</span>
+      <div class="feedback-system">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('feedback')">游戏反馈</div>
+          <div class="tab" onclick="switchTab('report')">游戏举报</div>
+        </div>
+
+        <div id="feedbackTab" class="tab-content active">
+          <h2 class="section-title">提交反馈</h2>
+          <div class="form-group">
+            <label for="playerName" class="required">玩家名称或编号</label>
+            <input type="text" id="playerName" placeholder="请输入您的游戏ID或编号">
+          </div>
+          <div class="form-group">
+            <label for="feedbackType" class="required">反馈类型</label>
+            <select id="feedbackType">
+              <option value="">-- 请选择反馈类型 --</option>
+              <option value="bug">游戏漏洞</option>
+              <option value="suggestion">功能建议</option>
+              <option value="balance">游戏平衡性</option>
+              <option value="other">其他问题</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="feedbackContent" class="required">反馈内容</label>
+            <textarea id="feedbackContent" placeholder="请详细描述您遇到的问题或建议..."></textarea>
+          </div>
+          <div class="contact-method-container">
+            <div class="contact-method-row">
+              <div class="contact-method-label required">联系方式类型</div>
+              <div class="contact-method-select">
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'wechat')">微信号</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'qq')">QQ号</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'email')">邮箱</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'phone')">手机号</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactInfo" class="required">联系方式</label>
+            <input type="text" id="contactInfo" placeholder="请输入您的联系方式">
+          </div>
+          <div class="feedback-method-container">
+            <div class="feedback-method-row">
+              <div class="feedback-method-label required">反馈方式</div>
+              <div class="feedback-method-select">
+                <div class="feedback-method-option" onclick="selectFeedbackMethod(this, 'email')">邮箱反馈</div>
+                <div class="feedback-method-option" onclick="selectFeedbackMethod(this, 'message')">信息反馈</div>
+              </div>
+            </div>
+          </div>
+          <div class="upload-section">
+            <div class="upload-info">
+              <div class="upload-label">图片/视频证据</div>
+              <div class="upload-priority">(上传后优先处理)</div>
+            </div>
+            <p class="file-info">可上传最多6个文件（图片或视频）<span style="color: #ffa502;">（可选）</span></p>
+            <div class="upload-container">
+              <div class="upload-box" id="uploadTrigger">
+                <div class="plus-icon">+</div>
+                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+              </div>
+            </div>
+            <p class="file-counter">已选择文件: <span id="fileCount">0</span>/6</p>
+          </div>
+          <button class="submit-btn" id="submitBtn" onclick="submitFeedback()">提交反馈</button>
+        </div>
+
+        <div id="reportTab" class="tab-content">
+          <h2 class="section-title">提交举报</h2>
+          <div class="form-group">
+            <label for="reportPlayer" class="required">被举报玩家</label>
+            <input type="text" id="reportPlayer" placeholder="请输入被举报玩家的游戏ID">
+          </div>
+          <div class="form-group">
+            <label for="violationType" class="required">违规类型</label>
+            <select id="violationType">
+              <option value="">-- 请选择违规类型 --</option>
+              <option value="cheating">作弊行为</option>
+              <option value="abuse">言语辱骂</option>
+              <option value="scam">诈骗行为</option>
+              <option value="other">其他违规</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reportContent" class="required">举报描述</label>
+            <textarea id="reportContent" placeholder="请详细描述违规行为发生的时间、地点和具体情况..."></textarea>
+          </div>
+          <div class="contact-method-container">
+            <div class="contact-method-row">
+              <div class="contact-method-label required">联系方式类型</div>
+              <div class="contact-method-select">
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'wechat', 'report')">微信号</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'qq', 'report')">QQ号</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'email', 'report')">邮箱</div>
+                <div class="contact-method-option" onclick="selectContactMethod(this, 'phone', 'report')">手机号</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reportContactInfo" class="required">联系方式</label>
+            <input type="text" id="reportContactInfo" placeholder="请输入您的联系方式">
+          </div>
+          <div class="feedback-method-container">
+            <div class="feedback-method-row">
+              <div class="feedback-method-label required">反馈方式</div>
+              <div class="feedback-method-select">
+                <div class="feedback-method-option" onclick="selectFeedbackMethod(this, 'email', 'report')">邮箱反馈</div>
+                <div class="feedback-method-option" onclick="selectFeedbackMethod(this, 'message', 'report')">信息反馈</div>
+              </div>
+            </div>
+          </div>
+          <div class="upload-section">
+            <div class="upload-info">
+              <div class="upload-label">证据材料</div>
+              <div class="upload-priority">(上传后优先处理)</div>
+            </div>
+            <p class="file-info">可上传最多6个文件（截图或录像）<span style="color: #ffa502;">（可选）</span></p>
+            <div class="upload-container">
+              <div class="upload-box" id="reportUploadTrigger">
+                <div class="plus-icon">+</div>
+                <input type="file" id="reportFileInput" accept="image/*,video/*" multiple>
+              </div>
+            </div>
+            <p class="file-counter">已选择文件: <span id="reportFileCount">0</span>/6</p>
+          </div>
+          <button class="submit-btn" id="reportSubmitBtn" onclick="submitReport()">提交举报</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二维码弹窗 -->
+  <div id="qrModal" class="modal qr-modal" onclick="closeQR()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeQR()">&times;</span>
+      <img src="" id="qrImg" alt="二维码">
+    </div>
+  </div>
+
+  <!-- 游戏启动弹窗 -->
+  <div id="minecraftModal" class="modal minecraft-modal" onclick="closeMinecraft()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeMinecraft()">&times;</span>
+      <p><strong>网易版我的世界启动提示</strong></p>
+      <p id="detectionMessage">正在启动游戏...</p>
+      <div style="text-align:center; margin-top:25px;">
+        <button class="submit-btn" onclick="forceLaunchMinecraft()" style="max-width:220px; margin: 0 auto; padding: 14px;">手动启动游戏</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    <div id="notificationMessage">请填写所有必填字段！</div>
+  </div>
+
+  <!-- DongHui开发中提示弹窗 -->
+  <div id="donghuiDevModal" class="modal" onclick="closeDongHuiDevModal()">
+    <div class="modal-box" style="text-align: center;" onclick="event.stopPropagation()">
+      <span class="modal-close" onclick="closeDongHuiDevModal()">&times;</span>
+      <h2 class="section-title">提示</h2>
+      <h3 style="color: #00FF00; font-size: 1.5rem; margin: 20px 0;">网页正在开发中•••</h3>
+      <div class="ai-options-container">
+        <button 
+          class="ai-option-btn" 
+          style="background: linear-gradient(90deg, #00FF00, #006400);"
+          onclick="closeDongHuiDevModal()">
+          确定
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const map = {qq:'qq.jpg', wechat:'wechat.png', mp:'mp.jpg'};
+    let minecraftTimer;
+    const neteaseWebsite = 'https://mc.163.com/';
+    let feedbackContactMethod = '';
+    let feedbackFeedbackMethod = '';
+    let reportContactMethod = '';
+    let reportFeedbackMethod = '';
+    const serverName = "东神世界";
+    const serverAddress = "pe.netease.com:123456";
+
+    // 动态时间功能
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('timeValue').textContent = 
+        [now.getHours(), now.getMinutes(), now.getSeconds()]
+          .map(v => String(v).padStart(2, '0')).join(':');
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    function showDongHuiDevMessage() {
+      window.location.href = "Ai.html";
+    }
+
+    function closeDongHuiDevModal() {
+      document.getElementById('donghuiDevModal').style.display = 'none';
+    }
+
+    function detectDevice() {
+      const ua = navigator.userAgent;
+      return {
+        isMobile: /iPhone|iPad|iPod|Android/i.test(ua),
+        isPC: /Windows|Macintosh|Linux/i.test(ua)
+      };
+    }
+
+    function launchMinecraft() {
+      const device = detectDevice();
+      document.getElementById('minecraftModal').style.display = 'flex';
+      if (device.isMobile) {
+        document.getElementById('detectionMessage').textContent = '正在启动网易版我的世界...';
+        const minecraftLink = `minecraft://?addExternalServer=${encodeURIComponent(serverName)}|${serverAddress}`;
+        window.location.href = minecraftLink;
+        minecraftTimer = setTimeout(() => {
+          if (!document.hidden) {
+            document.getElementById('detectionMessage').textContent = '启动失败，请确保已安装网易版我的世界';
+          }
+        }, 30000);
+      } else {
+        document.getElementById('detectionMessage').textContent = '电脑版无法直接启动，即将跳转官网';
+        setTimeout(() => {
+          window.location.href = neteaseWebsite;
+        }, 3000);
+      }
+    }
+
+    function forceLaunchMinecraft() {
+      window.location.href = neteaseWebsite;
+    }
+
+    function showQR(t) {
+      document.getElementById('qrImg').src = map[t];
+      document.getElementById('qrModal').style.display = 'flex';
+    }
+
+    function closeQR() {
+      document.getElementById('qrModal').style.display = 'none';
+    }
+
+    // 新增的多二维码显示功能
+    function showMultiQR() {
+      document.getElementById('multiQrModal').style.display = 'flex';
+    }
+    
+    function closeMultiQR() {
+      document.getElementById('multiQrModal').style.display = 'none';
+    }
+
+    function closeMinecraft() {
+      clearTimeout(minecraftTimer);
+      document.getElementById('minecraftModal').style.display = 'none';
+    }
+
+    function showFeedbackReport() {
+      document.getElementById('feedbackReportModal').style.display = 'flex';
+      document.querySelector('.modal-box').scrollTop = 0;
+    }
+
+    function closeFeedbackReport() {
+      document.getElementById('feedbackReportModal').style.display = 'none';
+    }
+
+    // 新增的更多选项功能
+    function openMoreOptions() {
+      window.location.href = "Gdsx.html";
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.getElementById(tabName + 'Tab').classList.add('active');
+      event.target.classList.add('active');
+      document.querySelector('.modal-box').scrollTop = 0;
+    }
+
+    function selectContactMethod(element, method, type = 'feedback') {
+      const container = element.parentElement;
+      container.querySelectorAll('.contact-method-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      if (type === 'feedback') {
+        feedbackContactMethod = method;
+      } else {
+        reportContactMethod = method;
+      }
+    }
+
+    function selectFeedbackMethod(element, method, type = 'feedback') {
+      const container = element.parentElement;
+      container.querySelectorAll('.feedback-method-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      if (type === 'feedback') {
+        feedbackFeedbackMethod = method;
+      } else {
+        reportFeedbackMethod = method;
+      }
+    }
+
+    function showNotification(message, type = 'error') {
+      const notification = document.getElementById('notification');
+      document.getElementById('notificationMessage').textContent = message;
+      notification.className = `notification ${type} show`;
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('fileInput');
+      const uploadContainer = document.querySelector('#feedbackTab .upload-container');
+      const fileCount = document.getElementById('fileCount');
+      let feedbackFiles = [];
+
+      const reportFileInput = document.getElementById('reportFileInput');
+      const reportUploadContainer = document.querySelector('#reportTab .upload-container');
+      const reportFileCount = document.getElementById('reportFileCount');
+      let reportFiles = [];
+
+      function handleFileUpload(files, container, fileArray, counterElement) {
+        const remainingSlots = 6 - fileArray.length;
+        const filesToAdd = Array.from(files).slice(0, remainingSlots);
+        
+        if (filesToAdd.length === 0) {
+          showNotification('最多只能上传6个文件');
+          return;
+        }
+        
+        filesToAdd.forEach(file => {
+          if (!file.type.match('image.*') && !file.type.match('video.*')) {
+            showNotification('只能上传图片或视频文件');
+            return;
+          }
+          
+          fileArray.push(file);
+          const previewItem = document.createElement('div');
+          previewItem.className = 'preview-item';
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.onclick = function() {
+            previewItem.remove();
+            const index = fileArray.indexOf(file);
+            if (index > -1) {
+              fileArray.splice(index, 1);
+            }
+            counterElement.textContent = fileArray.length;
+            container.querySelector('.upload-box').style.display = 'flex';
+          };
+          
+          let media;
+          if (file.type.match('image.*')) {
+            media = document.createElement('img');
+          } else {
+            media = document.createElement('video');
+            media.controls = true;
+          }
+          media.src = URL.createObjectURL(file);
+          
+          previewItem.appendChild(media);
+          previewItem.appendChild(removeBtn);
+          
+          container.insertBefore(previewItem, container.querySelector('.upload-box'));
+        });
+        
+        counterElement.textContent = fileArray.length;
+        
+        if (fileArray.length >= 6) {
+          container.querySelector('.upload-box').style.display = 'none';
+        }
+      }
+
+      fileInput.addEventListener('change', function(e) {
+        handleFileUpload(e.target.files, uploadContainer, feedbackFiles, fileCount);
+      });
+
+      reportFileInput.addEventListener('change', function(e) {
+        handleFileUpload(e.target.files, reportUploadContainer, reportFiles, reportFileCount);
+      });
+    });
+
+    function submitFeedback() {
+      const playerName = document.getElementById('playerName').value.trim();
+      const feedbackType = document.getElementById('feedbackType').value;
+      const feedbackContent = document.getElementById('feedbackContent').value.trim();
+      const contactInfo = document.getElementById('contactInfo').value.trim();
+
+      if (!playerName) {
+        showNotification('玩家名称或编号必须填写！');
+        return;
+      }
+      if (!feedbackType) {
+        showNotification('反馈类型必须选择！');
+        return;
+      }
+      if (!feedbackContent) {
+        showNotification('反馈内容必须填写！');
+        return;
+      }
+      if (!feedbackContactMethod) {
+        showNotification('请选择联系方式类型！');
+        return;
+      }
+      if (!contactInfo) {
+        showNotification('联系方式必须填写！');
+        return;
+      }
+      if (!feedbackFeedbackMethod) {
+        showNotification('请选择反馈方式！');
+        return;
+      }
+
+      showNotification('反馈提交成功！我们已收到您的信息', 'success');
+
+      if (feedbackFeedbackMethod === 'email') {
+        const subject = encodeURIComponent(`[东神工作室反馈] ${feedbackType}`);
+        const body = encodeURIComponent(
+          `玩家ID：${playerName}\n反馈类型：${feedbackType}\n反馈内容：\n${feedbackContent}\n联系方式：${feedbackContactMethod} - ${contactInfo}`
+        );
+        window.location.href = `mailto:dong_shen_server@126.com?subject=${subject}&body=${body}`;
+      } else if (feedbackFeedbackMethod === 'message') {
+        const body = encodeURIComponent(
+          `[东神工作室反馈] 玩家：${playerName}，类型：${feedbackType}，内容：${feedbackContent}`
+        );
+        window.location.href = `sms:+8618150148372?body=${body}`;
+      }
+    }
+
+    function submitReport() {
+      const reportPlayer = document.getElementById('reportPlayer').value.trim();
+      const violationType = document.getElementById('violationType').value;
+      const reportContent = document.getElementById('reportContent').value.trim();
+      const reportContactInfo = document.getElementById('reportContactInfo').value.trim();
+
+      if (!reportPlayer) {
+        showNotification('被举报玩家必须填写！');
+        return;
+      }
+      if (!violationType) {
+        showNotification('违规类型必须选择！');
+        return;
+      }
+      if (!reportContent) {
+        showNotification('举报描述必须填写！');
+        return;
+      }
+      if (!reportContactMethod) {
+        showNotification('请选择联系方式类型！');
+        return;
+      }
+      if (!reportContactInfo) {
+        showNotification('联系方式必须填写！');
+        return;
+      }
+      if (!reportFeedbackMethod) {
+        showNotification('请选择反馈方式！');
+        return;
+      }
+
+      showNotification('举报提交成功！我们将尽快处理', 'success');
+
+      if (reportFeedbackMethod === 'email') {
+        const subject = encodeURIComponent(`[东神工作室举报] ${violationType}`);
+        const body = encodeURIComponent(
+          `被举报玩家：${reportPlayer}\n违规类型：${violationType}\n举报描述：\n${reportContent}\n联系方式：${reportContactMethod} - ${reportContactInfo}`
+        );
+        window.location.href = `mailto:dong_shen_server@163.com?subject=${subject}&body=${body}`;
+      } else if (reportFeedbackMethod === 'message') {
+        const body = encodeURIComponent(
+          `[东神工作室举报] 被举报：${reportPlayer}，类型：${violationType}，描述：${reportContent}`
+        );
+        window.location.href = `sms:+8618150148372?body=${body}`;
+      }
+    }
+    
+    // 新增的站内搜索器功能函数
+    function openSearch() {
+      window.location.href = "srkhusrk.html";
+    }
+    
+    // 原有的智能辅助功能函数
+    function showAIAssistant() {
+      document.getElementById('aiAssistantModal').style.display = 'flex';
+      document.querySelector('.modal-box').scrollTop = 0;
+    }
+    
+    function closeAIAssistant() {
+      document.getElementById('aiAssistantModal').style.display = 'none';
+    }
+    
+    function showDeepSeekOptions() {
+      closeAIAssistant();
+      document.getElementById('deepSeekModal').style.display = 'flex';
+    }
+    
+    function closeDeepSeek() {
+      document.getElementById('deepSeekModal').style.display = 'none';
+    }
+    
+    function showKimiOptions() {
+      closeAIAssistant();
+      document.getElementById('kimiModal').style.display = 'flex';
+    }
+    
+    function closeKimi() {
+      document.getElementById('kimiModal').style.display = 'none';
+    }
+    
+    function showDongHui() {
+      closeAIAssistant();
+      document.getElementById('donghuiResultModal').style.display = 'flex';
+    }
+    
+    function closeDongHuiResult() {
+      document.getElementById('donghuiResultModal').style.display = 'none';
+    }
+    
+    function openDeepSeek(version) {
+      closeDeepSeek();
+      document.getElementById('deepSeekResultModal').style.display = 'flex';
+      if (version === '1.0') {
+        document.getElementById('deepSeekMode').textContent = '无深度思考R1';
+      } else if (version === 'R1') {
+        document.getElementById('deepSeekMode').textContent = '深度思考R1';
+      }
+    }
+    
+    function closeDeepSeekResult() {
+      document.getElementById('deepSeekResultModal').style.display = 'none';
+    }
+    
+    function openKimi(version) {
+      closeKimi();
+      document.getElementById('kimiResultModal').style.display = 'flex';
+      if (version === '1.5') {
+        document.getElementById('kimiMode').textContent = 'K1.5无联网搜索';
+      } else if (version === '2.0') {
+        document.getElementById('kimiMode').textContent = 'K2.0无联网搜索';
+      }
+    }
+    
+    function closeKimiResult() {
+      document.getElementById('kimiResultModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

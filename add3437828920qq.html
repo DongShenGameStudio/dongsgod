@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系东神服务器安全响应中心</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .logo {
+            width: 120px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        .countdown {
+            font-size: 36px;
+            color: #42b983;
+            margin: 20px 0;
+        }
+
+        .action-button {
+            display: inline-block;
+            background: #1a73e8;
+            color: white;
+            padding: 14px 40px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="https://qlogo4.store.qq.com/qzone/3437828920/3437828920/100" alt="安全响应中心头像" class="logo">
+        <h2 class="title">联系东神服务器安全响应中心DAX</h2>
+        <p class="countdown">即将在 <span id="countdown">10</span> 秒后跳转</p>
+        <p>如果未自动跳转，请点击下方链接</p>
+        <a href="mqq://im/chat?chat_type=wpa&uin=3437828920" 
+           class="action-button" target="_blank">立即联系DAX</a>
+    </div>
+
+    <script>
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+
+        function updateCountdown() {
+            if (countdown > 0) {
+                countdown--;
+                countdownElement.textContent = countdown;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                window.location.href = 'mqq://im/chat?chat_type=wpa&uin=3437828920';
+            }
+        }
+
+        updateCountdown();
+    </script>
+</body>
+</html>

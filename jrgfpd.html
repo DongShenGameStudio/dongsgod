@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加入东神服务器官方QQ频道</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.12);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .channel-logo {
+            width: 150px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 32px;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            font-size: 48px;
+            color: #059669;
+            margin: 25px 0;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 16px 50px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(37, 99, 233, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="https://p.qlogo.cn/gh/984268007/984268007/100" alt="频道图标" class="channel-logo">
+        <h2 class="title">加入东神服务器官方QQ频道</h2>
+        <p class="countdown">即将在 <span id="countdown">10</span> 秒后跳转</p>
+        <p>如果未自动跳转，请点击下方链接</p>
+        <a href="https://pd.qq.com/s/bg80vdy27?b=9" 
+           class="cta-button" target="_blank">立即加入频道</a>
+    </div>
+
+    <script>
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdown');
+
+        function updateCountdown() {
+            if (countdown > 0) {
+                countdown--;
+                countdownElement.textContent = countdown;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                window.location.href = 'https://pd.qq.com/s/bg80vdy27?b=9';
+            }
+        }
+
+        updateCountdown();
+    </script>
+</body>
+</html>
