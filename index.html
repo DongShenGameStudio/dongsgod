@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>东神工作室</title>
+  <meta name="description" content="东神工作室是我的世界网易基岩版的工作室，同时也是开发网络科技的工作室，此地址正是东神工作室官网，已联合至‘东神团队，东神云计算平台，东神企业开放平台，东神云算力平台’旗下。">
+  <meta name="keywords" content="东神工作室,我的世界网易基岩版,东神团队,东神云计算平台,东神企业开放平台,东神云算力平台">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#0c0c1a 0%,#0a0f2a 100%);
+      color:#e6e6e6;
+      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      text-align:center;
+      padding:20px;
+    }
+    h1{font-size:2.2rem;margin-bottom:12px;background:linear-gradient(90deg,#4ecca3,#87cefa);-webkit-background-clip:text;background-clip:text;color:transparent}
+    p{margin-top:10px;font-size:1.15rem;line-height:1.6;max-width:680px}
+    /* 11 秒后淡出并跳转 */
+    .fade-out{animation:fadeOut 1s forwards}
+    @keyframes fadeOut{to{opacity:0;visibility:hidden}}
+  </style>
+</head>
+<body>
+  <div id="intro">
+    <p>东神工作室是我的世界网易基岩版的工作室，同时也是开发网络科技的工作室，此地址正是东神工作室官网，已联合至「东神团队、东神云计算平台、东神企业开放平台、东神云算力平台」旗下。</p>
+  </div>
+
+  <script>
+    // 11 秒后淡出 → 跳转
+    setTimeout(() => {
+      document.getElementById('intro').classList.add('fade-out');
+      setTimeout(() => {
+        window.location.replace('https://dongshengamestudio.github.io/dongsgod/index0.html');
+      }, 1000);
+    }, 11000);
+  </script>
+</body>
+</html>
