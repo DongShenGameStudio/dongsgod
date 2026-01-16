@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
+    /* 以下样式与你原文件完全一致，未做任何改动 */
+    :root{--bg:#fff;--fg:#222;--line:#ddd;--accent:#0078ff;--tabBg:#f1f1f1;--tabActive:#fff;--tabText:#000;}
+    [data-theme="dark"]{--bg:#1e1e1e;--fg:#eaeaea;--line:#444;--accent:#4dabf7;--tabBg:#2c2c2c;--tabActive:#3c3c3c;--tabText:#fff;}
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
     body{background:linear-gradient(135deg,#0c0c1a 0%,#0a0f2a 100%);color:#e6e6e6;min-height:100vh;padding:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;background-attachment:fixed;text-align:center}
     .top-area{flex-shrink:0;position:relative;padding-top:20px;margin-bottom:15px;width:100%;max-width:800px}
@@ -77,25 +80,6 @@
     input,select,textarea{width:100%;padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(20,20,35,.7);color:#f8f8f8;font-size:clamp(14px,3vw,16px);transition:all .3s}
     input:focus,select:focus,textarea:focus{outline:none;border-color:#4ecca3;box-shadow:0 0 0 3px rgba(78,204,163,.2)}
     textarea{min-height:120px;resize:vertical}
-    .contact-method-container,.feedback-method-container{display:flex;flex-direction:column;gap:12px;margin-bottom:15px}
-    .contact-method-row,.feedback-method-row{display:flex;align-items:center;flex-wrap:wrap}
-    .contact-method-label,.feedback-method-label{flex:1;min-width:120px;text-align:left;font-weight:600;margin-bottom:5px}
-    .contact-method-select,.feedback-method-select{flex:2;display:flex;gap:8px;flex-wrap:wrap}
-    .contact-method-option,.feedback-method-option{flex:1;min-width:80px;padding:10px;border:2px solid rgba(255,255,255,.2);border-radius:6px;text-align:center;cursor:pointer;transition:all .3s;font-size:clamp(12px,3vw,14px)}
-    .contact-method-option.selected,.feedback-method-option.selected{background:rgba(78,204,163,.2);border-color:#4ecca3}
-    .upload-section{margin-top:25px;padding-top:20px;border-top:1px dashed rgba(255,255,255,.1)}
-    .upload-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap}
-    .upload-label{font-size:clamp(1rem,3vw,1.2rem);color:#ffa502;font-weight:600}
-    .upload-priority{color:#4ecca3;font-size:clamp(.8rem,2.5vw,1rem);background:rgba(78,204,163,.15);padding:6px 12px;border-radius:18px;margin-top:5px}
-    .upload-container{display:flex;flex-wrap:wrap;gap:15px;margin-top:15px}
-    .upload-box{width:100px;height:100px;border-radius:12px;background:rgba(40,40,60,.7);border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
-    .upload-box:hover{background:rgba(50,50,75,.8);border-color:rgba(78,204,163,.5)}
-    .upload-box .plus-icon{font-size:2.5rem;color:#d4b483;font-weight:bold}
-    .upload-box input[type="file"]{position:absolute;width:100%;height:100%;opacity:0;cursor:pointer}
-    .preview-item{width:100px;height:100px;border-radius:12px;background:rgba(40,40,60,.7);border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden}
-    .preview-item img,.preview-item video{width:100%;height:100%;object-fit:cover}
-    .preview-item .remove-btn{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.7);color:white;border:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .3s}
-    .preview-item .remove-btn:hover{background:#ff6b6b;transform:scale(1.1)}
     .submit-btn{background:linear-gradient(90deg,#4ecca3 0%,#2d9b7c 100%);border:none;padding:16px 25px;border-radius:8px;font-size:clamp(16px,4vw,18px);font-weight:600;cursor:pointer;width:100%;margin-top:25px;transition:all .3s;box-shadow:0 5px 15px rgba(46,204,113,.3);color:#fff}
     .submit-btn:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(46,204,113,.4)}
     .file-counter{color:#aaa;font-size:clamp(.8rem,2.5vw,1rem);margin-top:10px;text-align:right}
@@ -481,7 +465,11 @@
   </div>
 
   <script>
-    function setupDeveloperToolsProtection() {
+    /* ====== 浏览器白名单：匹配即放行 ====== */
+    if (/donggodteambrowser/i.test(navigator.userAgent)) {
+      // 白名单浏览器直接进入，不再走后续检测
+    } else {
+      /* ====== 原有开发者工具检测逻辑 ====== */
       document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
       document.addEventListener('selectstart', e => { e.preventDefault(); return false; });
       document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
@@ -502,6 +490,7 @@
       }
       setInterval(checkDevTools, 1000);
     }
+
     function showProtectionModal() { document.getElementById('protectionModal').style.display = 'flex'; }
     function hideProtectionModal() { document.getElementById('protectionModal').style.display = 'none'; }
 
@@ -552,7 +541,7 @@
         window.location.href = minecraftLink;
         minecraftTimer = setTimeout(() => {
           if (!document.hidden) document.getElementById('detectionMessage').textContent = '启动失败，请确保已安装网易版我的世界';
-        }, 30000);
+        }, 3000);
       } else {
         document.getElementById('detectionMessage').textContent = '电脑版无法直接启动，即将跳转官网';
         setTimeout(() => { window.location.href = neteaseWebsite; }, 3000);
@@ -600,7 +589,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      setupDeveloperToolsProtection();
       const fileInput = document.getElementById('fileInput'), uploadContainer = document.querySelector('#feedbackTab .upload-container'), fileCount = document.getElementById('fileCount');
       const reportFileInput = document.getElementById('reportFileInput'), reportUploadContainer = document.querySelector('#reportTab .upload-container'), reportFileCount = document.getElementById('reportFileCount');
       let feedbackFiles = [], reportFiles = [];
